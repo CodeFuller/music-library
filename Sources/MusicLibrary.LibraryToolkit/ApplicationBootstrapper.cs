@@ -8,6 +8,7 @@ using MusicLibrary.Dal.LocalDb.Extensions;
 using MusicLibrary.LibraryToolkit.Interfaces;
 using MusicLibrary.LibraryToolkit.Seeders;
 using MusicLibrary.LibraryToolkit.Settings;
+using MusicLibrary.Services.Extensions;
 using MusicLibraryApi.Client;
 
 namespace MusicLibrary.LibraryToolkit
@@ -18,6 +19,8 @@ namespace MusicLibrary.LibraryToolkit
 		{
 			services.AddLocalDbDal(settings => configuration.Bind("localDb:dataStorage", settings));
 			services.AddMusicLibraryDbContext(configuration.GetConnectionString("musicLibraryDb"));
+
+			services.AddMusicLibraryServices();
 
 			services.Configure<DiscsSeederSettings>(options => configuration.Bind("seeders:discsSeeder", options));
 			services.Configure<SongsSeederSettings>(options => configuration.Bind("seeders:songsSeeder", options));

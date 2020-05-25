@@ -43,13 +43,13 @@ namespace MusicLibrary.LibraryToolkit
 					return 1;
 
 				case LaunchCommand.MigrateDatabase:
-					if (restArgs.Count != 2)
+					if (restArgs.Count != 1)
 					{
 						ShowHelp();
 						return 1;
 					}
 
-					await migrateDatabaseCommand.Execute(restArgs[0], restArgs[1], cancellationToken);
+					await migrateDatabaseCommand.Execute(restArgs[0], cancellationToken);
 					break;
 
 				case LaunchCommand.SeedApiDatabase:
@@ -75,7 +75,7 @@ namespace MusicLibrary.LibraryToolkit
 			Console.Error.WriteLine(Invariant($"Usage: {Path.GetFileName(fileSystemFacade.GetProcessExecutableFileName())} <command> [command options]"));
 			Console.Error.WriteLine("Supported commands:");
 			Console.Error.WriteLine();
-			Console.Error.WriteLine("  --migrate-database   <source db file>  <target db file>");
+			Console.Error.WriteLine("  --migrate-database   <target db file>");
 			Console.Error.WriteLine("      Creates database schema by included 'MusicLibrary.sql' and copies data from source database.");
 			Console.Error.WriteLine();
 			Console.Error.WriteLine("  --seed-api-database");

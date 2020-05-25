@@ -23,11 +23,11 @@
 	},
 
 	"logging": {
-		"defaultLogLevel": "Debug",
+		"defaultLogLevel": "Information",
 		"targets": [
 			{
 				"type": "Console",
-				"logLevel": "Debug"
+				"logLevel": "Information"
 			}
 		]
 	}

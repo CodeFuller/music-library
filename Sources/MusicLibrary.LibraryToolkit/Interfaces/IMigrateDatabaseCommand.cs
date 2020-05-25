@@ -5,6 +5,6 @@ namespace MusicLibrary.LibraryToolkit.Interfaces
 {
 	public interface IMigrateDatabaseCommand
 	{
-		Task Execute(string sourceDatabaseFileName, string targetDatabaseFileName, CancellationToken cancellationToken);
+		Task Execute(string targetDatabaseFileName, CancellationToken cancellationToken);
 	}
 }
