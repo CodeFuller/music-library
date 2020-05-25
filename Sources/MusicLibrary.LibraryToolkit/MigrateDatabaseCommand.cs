@@ -101,19 +101,26 @@ namespace MusicLibrary.LibraryToolkit
 
 			scriptBuilder.AppendLine();
 
-			var discs = folders
-				.SelectMany(f => f.Discs)
-				.OrderBy(d => d.Id.ToInt32())
+			var discsAndFolders = folders
+				.SelectMany(f => f.Discs.Select(d => (Folder: f, Disc: d)))
+				.OrderBy(p => p.Disc.Id.ToInt32())
 				.ToList();
 
-			foreach (var disc in discs)
+			foreach (var disc in discsAndFolders.Select(p => p.Disc))
 			{
 				scriptBuilder.AppendLine(Invariant($"UPDATE [Discs] SET [TreeTitle] = '{EscapeSqlStringLiteral(disc.TreeTitle)}' WHERE [Id] = {disc.Id.Value};"));
 			}
 
 			scriptBuilder.AppendLine();
 
-			foreach (var song in discs.SelectMany(d => d.Songs).OrderBy(s => s.Id.ToInt32()))
+			foreach (var pair in discsAndFolders)
+			{
+				scriptBuilder.AppendLine(Invariant($"UPDATE [Discs] SET [Folder_Id] = {pair.Folder.Id} WHERE [Id] = {pair.Disc.Id.Value};"));
+			}
+
+			scriptBuilder.AppendLine();
+
+			foreach (var song in discsAndFolders.Select(p => p.Disc).SelectMany(d => d.Songs).OrderBy(s => s.Id.ToInt32()))
 			{
 				scriptBuilder.AppendLine(Invariant($"UPDATE [Songs] SET [TreeTitle] = '{EscapeSqlStringLiteral(song.TreeTitle)}' WHERE [Id] = {song.Id.Value};"));
 			}
