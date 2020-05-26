@@ -6,6 +6,8 @@ namespace MusicLibrary.Core.Models
 	{
 		public ItemId Id { get; set; }
 
+		public string TreeTitle { get; set; }
+
 		public DiscImageType ImageType { get; set; }
 
 		public Uri Uri { get; set; }

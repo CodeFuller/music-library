@@ -76,6 +76,7 @@ CREATE TABLE [Playbacks] (
 CREATE TABLE [DiscImages] (
   [Id] INTEGER NOT NULL,
   [Disc_Id] int NOT NULL,
+  [TreeTitle] ntext NOT NULL,
   [ImageType] int NOT NULL,
   [Uri] ntext NOT NULL,
   [FileSize] int NOT NULL,

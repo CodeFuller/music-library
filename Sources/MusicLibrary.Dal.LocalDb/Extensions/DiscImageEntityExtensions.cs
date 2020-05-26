@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using MusicLibrary.Core.Models;
 using MusicLibrary.Dal.LocalDb.Entities;
 using MusicLibrary.Dal.LocalDb.Interfaces;
+using MusicLibrary.Dal.LocalDb.Internal;
 using DiscImageType = MusicLibrary.Core.Models.DiscImageType;
 
 namespace MusicLibrary.Dal.LocalDb.Extensions
@@ -13,6 +15,7 @@ namespace MusicLibrary.Dal.LocalDb.Extensions
 			return new DiscImageModel
 			{
 				Id = discImage.Id.ToItemId(),
+				TreeTitle = new ItemUriParts(discImage.Uri).Last(),
 				ImageType = ConvertImageType(discImage.ImageType),
 				Uri = uriTranslator.GetExternalUri(discImage.Uri),
 				Size = discImage.FileSize,

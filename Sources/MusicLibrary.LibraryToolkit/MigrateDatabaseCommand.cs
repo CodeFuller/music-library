@@ -76,6 +76,7 @@ namespace MusicLibrary.LibraryToolkit
 			scriptBuilder.AppendLine("ALTER TABLE [Discs] ADD COLUMN [TreeTitle] ntext NOT NULL DEFAULT '<DEFAULT>';");
 			scriptBuilder.AppendLine("ALTER TABLE [Discs] ADD COLUMN [Folder_Id] INTEGER NOT NULL DEFAULT 0;");
 			scriptBuilder.AppendLine("ALTER TABLE [Songs] ADD COLUMN [TreeTitle] ntext NOT NULL DEFAULT '<DEFAULT>';");
+			scriptBuilder.AppendLine("ALTER TABLE [DiscImages] ADD COLUMN [TreeTitle] ntext NOT NULL DEFAULT '<DEFAULT>';");
 			scriptBuilder.AppendLine();
 
 			scriptBuilder.AppendLine("CREATE TABLE [Folders] (");
@@ -123,6 +124,13 @@ namespace MusicLibrary.LibraryToolkit
 			foreach (var song in discsAndFolders.Select(p => p.Disc).SelectMany(d => d.Songs).OrderBy(s => s.Id.ToInt32()))
 			{
 				scriptBuilder.AppendLine(Invariant($"UPDATE [Songs] SET [TreeTitle] = '{EscapeSqlStringLiteral(song.TreeTitle)}' WHERE [Id] = {song.Id.Value};"));
+			}
+
+			scriptBuilder.AppendLine();
+
+			foreach (var image in discsAndFolders.Select(p => p.Disc).SelectMany(d => d.Images).OrderBy(s => s.Id.ToInt32()))
+			{
+				scriptBuilder.AppendLine(Invariant($"UPDATE [DiscImages] SET [TreeTitle] = '{EscapeSqlStringLiteral(image.TreeTitle)}' WHERE [Id] = {image.Id.Value};"));
 			}
 
 			await System.IO.File.WriteAllTextAsync(targetDatabaseFileName, scriptBuilder.ToString(), cancellationToken);
